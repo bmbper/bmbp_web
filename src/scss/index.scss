@@ -1,0 +1,21 @@
+@use "vars.scss";
+@use "color.scss";
+@use "size.scss";
+@use "page.scss";
+@use "layout.scss";
+
+html,body,#app,#root{
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.bm-logo{
+
+    img{
+        width: 100%;
+        height: 100%;
+    }
+}

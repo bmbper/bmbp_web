@@ -1,0 +1,69 @@
+
+
+.bm-v-layout{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border-radius: 0;
+}
+.bm-v-header{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    justify-items: center;
+    border-radius: 0;
+    box-sizing: border-box;
+
+}
+.bm-v-grow{
+    width: 100%;
+    flex: 1;
+    border-radius: 0;
+    box-sizing: border-box;
+}
+.bm-v-split{
+    width: 2px;
+    height: 100%;
+    box-sizing: border-box;
+}
+.bm-h-layout{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+}
+.bm-h-grow{
+    height: 100%;
+    flex: 1;
+    border-radius: 0;
+    box-sizing: border-box;
+}
+.bm-h-aside{
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.bm-flex{
+    display: flex;
+    box-sizing: border-box;
+}
+.bm-flex-start{
+    display: flex;
+    justify-content: start;
+    justify-items: center;
+    text-align: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.bm-flex-end{
+    display: flex;
+    justify-content: end;
+    justify-items: center;
+    text-align: center;
+    align-items: center;
+    box-sizing: border-box;
+}
