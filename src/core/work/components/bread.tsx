@@ -8,7 +8,7 @@ const Bread = () => {
       <Breadcrumb>
           {
             PageState.breadcrumItems.map((item:any) => {
-              return <BreadcrumbItem>{item}</BreadcrumbItem>
+              return <BreadcrumbItem key={item}>{item}</BreadcrumbItem>
             })
           }
       </Breadcrumb>

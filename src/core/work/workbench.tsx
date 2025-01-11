@@ -1,12 +1,15 @@
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import Header from "./components/header";
 import Sidebar from "./components/sidebar";
 import Bread from "./components/bread";
 import { useEffect } from "react";
-import {PageAction } from "./store";
+import {PageAction, PageState } from "./store";
+
 const Workbench = () => {
+  const  navigate = useNavigate();
   PageAction.init();
   useEffect(() => {
+    PageState.navigate = navigate;
     PageAction.loadInitData();
   },[])
   return (

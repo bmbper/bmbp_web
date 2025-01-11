@@ -5,3 +5,12 @@
     margin: 0px;
     box-sizing: border-box;
 }
+.bm-iframe-full{
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    border:none;
+    overflow: auto; /* 内部内容可滚动 */
+}
