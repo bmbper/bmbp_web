@@ -9,16 +9,16 @@ const PageAction = {
     const [sideMenu, setSideMenu] = useState([]);
     PageState.sideMenu = sideMenu;
     PageState.setSideMenu = setSideMenu;
+    const [sideMenuSelectedKey, setSideMenuSelectedKey] = useState([]);
+    PageState.sideMenuSelectedKey = sideMenuSelectedKey;
+    PageState.setSideMenuSelectedKey = setSideMenuSelectedKey;
 
     const [breadcrumItems, setBreadcrumItems] = useState([]);
     PageState.breadcrumItems = breadcrumItems;
     PageState.setBreadcrumItems = setBreadcrumItems;
 
-
   },
   loadInitData: () => {
-    let bread = ["首页", "测试", "DEMO"];
-    PageState.setBreadcrumItems(bread);
     // 构建菜单数据
     const sideMenu:any[] = [
       {
@@ -131,26 +131,35 @@ const PageAction = {
     PageState.setSideMenu(sideMenu);
   },
   onSideMenuClick: (item:any) => {
-    item.menuOpenType = (!item.menuOpenType || item.menuOpenType == "") ? "app" : item.menuOpenType;
+    PageState.setSideMenuSelectedKey([item.menuCode]);
     if (item.menuUrl && item.menuUrl != '#') {
-      if (item.menuOpenType === "app") {
-        if (PageAction.isFullUrl(item.menuUrl)) {
-          // IFRAME 打开
-          PageState.navigate("/iframe", { state: { url: item.menuUrl } });
-        } else {
-          PageState.navigate(item.menuUrl);
-        }
-      } else if (item.menuOpenType === "link") {
+      let menuNamePath = item.menuNamePath ? item.menuNamePath : "";
+      if (menuNamePath.startsWith("#")) {
+        menuNamePath = menuNamePath.substr(2, menuNamePath.length);
+      }
+      if (menuNamePath.endsWith("/")) {
+        menuNamePath = menuNamePath.substr(0, menuNamePath.length - 1);
+      }
+      const breadcrumArray = menuNamePath ? menuNamePath.split("/") : [];
+      PageState.setBreadcrumItems(breadcrumArray);
+
+      if (item.menuOpenType === "link") {
         if (PageAction.isFullUrl(item.menuUrl)) {
           window.open(item.menuUrl);
         } else {
           let url = window.location.origin;
           if (url.endsWith("/")) {
-            url = url.substring(0,url.length-1) +  item.menuUrl;
+            url = url.substring(0, url.length - 1) + item.menuUrl;
           } else {
-            url +=  item.menuUrl;
+            url += item.menuUrl;
           }
           window.open(url);
+        }
+      }else {
+        if (PageAction.isFullUrl(item.menuUrl)) {
+          PageState.navigate("/iframe", { state: { url: item.menuUrl } });
+        } else {
+          PageState.navigate(item.menuUrl);
         }
       }
     }

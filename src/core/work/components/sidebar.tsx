@@ -7,6 +7,7 @@ const renderSubMenu = (menus:any[]) => {
       if (item.children && item.children.length > 0) {
         return (
           <SubMenu
+            selectable
             key={item.menuCode}
             title={
               <>
@@ -40,6 +41,7 @@ const Sidebar = () => {
              collapse={false}
              ellipsis={true}
              accordion
+             selectedKeys = {PageState.sideMenuSelectedKey}
            >
             {
               renderSubMenu(PageState.sideMenu)

@@ -22,7 +22,7 @@ const Workbench = () => {
           <div className="bm-h-aside bm-w-200">
            <Sidebar />
           </div>
-          <div className="bm-v-split bm-bg-gray-1"/>
+          <div className="bm-h-split bm-bg-gray-1"/>
           <div className="bm-v-grow bm-v-layout">
             <div className="bm-v-header bm-h-32 bm-p-h-5 bm-bg-gray-1">
               <Bread/>
