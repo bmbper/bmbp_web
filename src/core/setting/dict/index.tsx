@@ -1,19 +1,25 @@
-import DictGrid from "./grid"
-import DictTree from "./tree"
+import { useEffect } from "react";
+import DictGrid from "./grid";
+import { PageAction } from "./store";
+import DictTree from "./tree";
 
-const DictTreePage=()=> {
+const DictTreePage = () => {
+  PageAction.init();
+  useEffect(() => {
+    PageAction.loadInitData();
+  }, []);
   return (
     <>
-      <div className="bm-page-full bm-h-layout">
-        <div className="bm-h-aside bm-w-320 bm-bg-blue-1">
-          <DictTree/>
+      <div className="bm-h-layout">
+        <div className="bm-h-aside bm-w-260">
+          <DictTree />
         </div>
-        <div className="bm-h-split bm-bg-gray-1"/>
-        <div className="bm-h-grow bm-bg-blue-1">
-          <DictGrid/>
+        <div className="bm-h-split bm-bg-gray-1" />
+        <div className="bm-h-grow ">
+          <DictGrid />
         </div>
-        </div>
+      </div>
     </>
-  )
-}
-export default DictTreePage
+  );
+};
+export default DictTreePage;
