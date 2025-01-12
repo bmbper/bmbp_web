@@ -1,10 +1,17 @@
-import axios, { Axios, getAdapter } from "axios";
+import axios from "axios";
+// Create an instance of axios
+const HttpUtil = axios.create({
+  baseURL: "/bmbp-api", // Replace with your base URL
+  timeout: 10000, // Request timeout
+});
 
 // 添加请求拦截器
-axios.interceptors.request.use(function (config:any) {
+HttpUtil.interceptors.request.use(
+  function (config: any) {
+    config.baseURL = "/bmbp-api";
     // 在提取Token
     if (!config.headers) {
-        config.headers = {};
+      config.headers = {};
     }
     if (!config.headers["Content-Type"]) {
       config.headers["Content-Type"] = "application/json";
@@ -12,35 +19,35 @@ axios.interceptors.request.use(function (config:any) {
     const token = window.localStorage.getItem("bmbpToken");
     config.headers["Authorization"] = token;
     return config;
-  }, function (error) {
+  },
+  function (error) {
     // 对请求错误做些什么
     return Promise.reject(error);
-  });
+  }
+);
 
 // 添加响应拦截器
-axios.interceptors.response.use(function (response:any) {
+HttpUtil.interceptors.response.use(
+  function (response: any) {
     let data = response.data;
     if (data.error) {
       return {
         code: data.error.code,
         msg: data.error.name,
-        data: response.config.url
+        data: response.config.url,
       };
     } else {
       return data;
     }
-  }, function (error) {
+  },
+  function (error) {
     let errJson = error.toJSON();
-      return {
-        code: errJson.status,
-        msg: errJson.msg,
-        data: errJson.code
-      };
-  });
-
-const BmbpHttp = {
-  get: (url: string, params: any)=>{
-
+    return {
+      code: errJson.status,
+      msg: errJson.msg,
+      data: errJson.code,
+    };
   }
-}
-export default BmbpHttp;
+);
+
+export default HttpUtil;

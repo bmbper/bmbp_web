@@ -23,11 +23,6 @@ const DictTree = () => {
           <Tree
             blockNode
             showLine={true}
-            fieldNames={{
-              key: "dictCode",
-              title: "dictName",
-              children: "dictChildren",
-            }}
             renderExtra={(node: BmbpDict) => {
               return renderTreeNodeAction(node);
             }}
@@ -41,10 +36,10 @@ const DictTree = () => {
 };
 const generatorTreeNodes = (treeData) => {
   return treeData.map((item) => {
-    const { children, key, ...rest } = item;
+    const { dictChildren, dictCode, dictName, ...rest } = item;
     return (
-      <Tree.Node key={key} {...rest} dataRef={item}>
-        {children ? generatorTreeNodes(item.children) : null}
+      <Tree.Node key={dictCode} title={dictName} {...rest} dataRef={item}>
+        {dictChildren ? generatorTreeNodes(item.dictChildren) : null}
       </Tree.Node>
     );
   });

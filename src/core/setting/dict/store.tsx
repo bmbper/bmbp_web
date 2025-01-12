@@ -1,63 +1,45 @@
+import { Message } from "@arco-design/web-react";
 import { useState } from "react";
+import HttpUtil from "../../../util/http";
 import { BmbpDict } from "./types";
 const PageState: { [key: string]: any } = {};
+
+const PageUrl = {
+  // 左侧树数据
+  treeUrl: "/config/dict/tree",
+};
+
+const usePageState = () => {
+  // 左侧树数据
+  const [treeData, setTreeData] = useState([]);
+  PageState.treeData = treeData;
+  PageState.setTreeData = setTreeData;
+
+  // 左侧树搜索框
+  const [treeSearchValue, setTreeSearchValue] = useState("");
+  PageState.treeSearchValue = treeSearchValue;
+  PageState.setTreeSearchValue = setTreeSearchValue;
+
+  // 左侧树节点选中数据
+  const [currentTreeNodeData, setCurrentTreeNodeData] = useState(null);
+  PageState.currentTreeNodeData = currentTreeNodeData;
+  PageState.setCurrentTreeNodeData = setCurrentTreeNodeData;
+
+  // 右侧查询数据
+  const [queryData, setQueryData] = useState([]);
+  PageState.queryData = queryData;
+  PageState.setQueryData = setQueryData;
+};
 const PageAction: { [key: string]: any } = {
-  init: () => {
-    const [treeData, setTreeData] = useState([]);
-    PageState.treeData = treeData;
-    PageState.setTreeData = setTreeData;
-    const [treeSearchValue, setTreeSearchValue] = useState("");
-    PageState.treeSearchValue = treeSearchValue;
-    PageState.setTreeSearchValue = setTreeSearchValue;
-  },
+  init: usePageState,
   loadInitData: () => {
-    const treeData = [
-      {
-        title: "Trunk",
-        key: "0-0",
-        children: [
-          {
-            title: "Leaf",
-            key: "0-0-1",
-          },
-          {
-            title: "Branch",
-            key: "0-0-2",
-            children: [
-              {
-                title: "Leaf",
-                key: "0-0-2-1",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        title: "Trunk",
-        key: "0-1",
-        children: [
-          {
-            title: "Branch",
-            key: "0-1-1",
-            children: [
-              {
-                title: "Leaf",
-                key: "0-1-1-1",
-              },
-              {
-                title: "Leaf",
-                key: "0-1-1-2",
-              },
-            ],
-          },
-          {
-            title: "Leaf",
-            key: "0-1-2",
-          },
-        ],
-      },
-    ];
-    PageState.setTreeData(treeData);
+    HttpUtil.post(PageUrl.treeUrl, {}).then((res: any) => {
+      if (res.code === "0") {
+        PageState.setTreeData(res.data);
+      } else {
+        Message.error(res.msg);
+      }
+    });
   },
   addBrother: (node: BmbpDict) => {},
   addChild: (node: BmbpDict) => {},
