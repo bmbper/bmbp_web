@@ -10,7 +10,7 @@ const PageUrl = {
 	pageUrl: "/config/dict/page",
 };
 
-const usePageState = () => {
+const usePageInit = () => {
 	// 左侧树数据
 	const [treeData, setTreeData] = useState([]);
 	PageState.treeData = treeData;
@@ -48,9 +48,38 @@ const usePageState = () => {
 	});
 	PageState.pagination = pagination;
 	PageState.setPagination = setPagination;
+
+	// 新增对话框
+  const [addDialogShow, setAddDialogShow] = useState(false);
+  PageState.addDialogShow = addDialogShow;
+  PageState.setAddDialogShow = setAddDialogShow;
+  PageState.addFormRef = useRef();
+
+  // 编辑对话框
+  const [eidtDialogShow, setEditDialogShow] = useState(false);
+  PageState.eidtDialogShow = eidtDialogShow;
+  PageState.setEditDialogShow = setEditDialogShow;
+  PageState.editFormRef = useRef();
+
+
+
+  // 查看对话框
+    const [infoDialogShow, setInfoDialogShow] = useState(false);
+    PageState.infoDialogShow = infoDialogShow;
+    PageState.setInfoDialogShow = setInfoDialogShow;
+    PageState.infoFormRef = useRef();
+
+    // 变更上级对话框
+      const [changeParentDialogShow, setChangeParentDialogShow] = useState(false);
+      PageState.changeParentDialogShow = changeParentDialogShow;
+      PageState.setChangeParentDialogShow = setChangeParentDialogShow;
+      PageState.changeParentFormRef = useRef();
+
+
+
 };
 const PageAction: { [key: string]: any } = {
-	init: usePageState,
+	init: usePageInit,
 	findTreeData: () => {
 		HttpUtil.post(PageUrl.treeUrl, {}).then((res: any) => {
 			if (res.code === "0") {
@@ -82,12 +111,39 @@ const PageAction: { [key: string]: any } = {
 			}
 		});
 	},
-	addBrother: (node: BmbpDict) => {},
-	addChild: (node: BmbpDict) => {},
-	edit: (node: BmbpDict) => {},
-	enable: (node: BmbpDict) => {},
-	disable: (node: BmbpDict) => {},
-	remove: (node: BmbpDict) => {},
+	addDict: (node: BmbpDict) => {
+    PageState.setAddDialogShow(true);
+	},
+	addBrother: (node: BmbpDict) => {
+    PageState.setAddDialogShow(true);
+	},
+	addChild: (node: BmbpDict) => {
+	 PageState.setAddDialogShow(true);
+	},
+	edit: (node: BmbpDict) => {
+	 PageState.setEditDialogShow(true);
+	},
+	changeParent: (node: BmbpDict) => {
+	 PageState.setChangeParentDialogShow(true);
+	},
+	enable: (node: BmbpDict) => {
+	 Message.info("启用功能开发中...")
+	},
+	disable: (node: BmbpDict) => {
+    Message.info("停用功能开发中...")
+	},
+	remove: (node: BmbpDict) => {
+	 Message.info("删除功能开发中...")
+	},
+	batchEnable: (node: BmbpDict) => {
+	 Message.info("批量启用功能开发中...")
+	},
+	batchDisable: (node: BmbpDict) => {
+    Message.info("批量停用功能开发中...")
+	},
+	batchRemove: (node: BmbpDict) => {
+	 Message.info("批量删除功能开发中...")
+	},
 };
 
 export { PageAction, PageState };

@@ -1,7 +1,8 @@
-import { Dropdown, Input, Menu, Tree } from "@arco-design/web-react";
+import { Dropdown, Input, Menu, Popconfirm, Tree } from "@arco-design/web-react";
 import { IconMore, IconPlus, IconRefresh } from "@arco-design/web-react/icon";
 import { PageAction, PageState } from "./store";
 import { BmbpDict } from "./types";
+import { NodeInstance } from "@arco-design/web-react/es/Tree/interface";
 const MenuItem = Menu.Item;
 const DictTree = () => {
 	return (
@@ -10,8 +11,11 @@ const DictTree = () => {
 				<div className="bm-tree-header">
 					<div className="bm-tree-header-title">字典设置</div>
 					<div className="bm-tree-header-action">
-						<IconRefresh />
-						<IconPlus />
+            <IconRefresh onClick={() => {
+              PageState.setTreeSearchValue("");
+              PageAction.findTreeData();
+            } } />
+            <IconPlus onClick={() => { PageAction.addBrother(null);}}/>
 					</div>
 				</div>
 				<div className="bm-v-split bm-bg-gray-1"></div>
@@ -19,6 +23,13 @@ const DictTree = () => {
 					<Input.Search
 						placeholder="输入关键词"
 						searchButton={true}
+						value={PageState.treeSearchValue}
+            onChange={(value) => {
+              PageState.setTreeSearchValue(value);
+            }}
+            onSearch={() => {
+              PageAction.findTreeData();
+            }}
 					/>
 				</div>
 				<div className="bm-v-split  bm-bg-gray-1"></div>
@@ -30,7 +41,7 @@ const DictTree = () => {
 							return renderTreeNodeAction(node.dataRef);
 						}}
 						onSelect={(
-							selectedKeys: string[],
+							_selectedKeys: string[],
 							extra: {
 								selected: boolean;
 								selectedNodes: NodeInstance[];
@@ -48,7 +59,7 @@ const DictTree = () => {
 		</>
 	);
 };
-const generatorTreeNodes = (treeData) => {
+const generatorTreeNodes = (treeData:BmbpDict[]) => {
 	return treeData.map((item) => {
 		const { dictChildren, dictCode, dictName } = item;
 		return (
@@ -64,7 +75,7 @@ const generatorTreeNodes = (treeData) => {
 };
 const renderTreeNodeAction = (node: BmbpDict) => {
 	const moreActionMenu = (
-		<Menu>
+    <Menu>
 			<MenuItem
 				key="add"
 				onClick={() => {
@@ -100,14 +111,21 @@ const renderTreeNodeAction = (node: BmbpDict) => {
 					>
 						启用
 					</MenuItem>
-					<MenuItem
-						key="remove"
-						onClick={() => {
+					<Popconfirm
+            title='删除确认？'
+            content='删除后，字典将无法选择和回显，是否删除?'
+            onOk={() => {
 							PageAction.remove(node);
-						}}
-					>
-						删除
-					</MenuItem>
+            }}
+            onCancel={() => {
+
+            }}
+          >
+            <MenuItem	key="remove" onClick={(e) => {
+              e.stopPropagation();
+            }}>	删除</MenuItem>
+          </Popconfirm>
+
 				</>
 			) : (
 				<>

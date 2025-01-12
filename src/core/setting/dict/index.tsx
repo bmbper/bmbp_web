@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import DictGrid from "./grid";
 import { PageAction } from "./store";
 import DictTree from "./tree";
+import { AddDictDialog, ChangeParentDialog, EditDictDialog, InfoDictDialog } from "./dialog";
 
 const DictTreePage = () => {
   PageAction.init();
@@ -17,6 +18,10 @@ const DictTreePage = () => {
         <div className="bm-h-split bm-bg-gray-1" />
         <div className="bm-h-grow ">
           <DictGrid />
+          <AddDictDialog/>
+          <EditDictDialog/>
+          <InfoDictDialog/>
+          <ChangeParentDialog/>
         </div>
       </div>
     </>

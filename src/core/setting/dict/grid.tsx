@@ -1,4 +1,4 @@
-import { Button, Form, Grid, Input, Pagination, Space, Table } from "@arco-design/web-react";
+import { Button, Form, Grid, Input, Pagination, Popconfirm, Space, Table } from "@arco-design/web-react";
 import { useEffect } from "react";
 import { PageAction, PageState } from "./store";
 import { BmbpDict } from "./types";
@@ -15,11 +15,13 @@ const DictGrid = () => {
 					<GridSearchForm />
 				</div>
 				<div className="bm-grid-toolbar">
-					<Button type="primary">新增</Button>
+          <Button type="primary" onClick={() => {
+            PageAction.addDict();
+          }}>新增</Button>
 					{PageState.selectedRowKeys && PageState.selectedRowKeys.length > 0 ? (
 						<>
-							<Button type="primary">批量启用</Button>
-							<Button type="primary">批量停用</Button>
+              <Button type="primary" onClick={() => { PageAction.batchEnable(); }}>批量启用</Button>
+							<Button type="primary" onClick={() => { PageAction.batch(); }}>批量停用</Button>
 							<Button
 								type="primary"
 								status="danger"
@@ -109,7 +111,7 @@ const GridTable = () => {
 			title: "序号",
 			dataIndex: "dictCode",
 			width: 64,
-			render: (col, record, index) => {
+			render: (_col:any, _record:any, index:any) => {
 				return (PageState.pagination.pageNum - 1) * PageState.pagination.pageSize + index + 1;
 			},
 		},
@@ -134,7 +136,7 @@ const GridTable = () => {
 			title: "操作",
 			dataIndex: "dataId",
 			width: 280,
-			render: (col, record, index) => {
+			render: (_col:any, record:any, _index:any) => {
 				return (
 					<div className="bm-grid-table-row-action">
 						<Button
@@ -166,8 +168,6 @@ const GridTable = () => {
 				border={true}
 				borderCell={true}
 				stripe={true}
-				checkbox={true}
-				checkAll={true}
 				rowKey="dictCode"
 				columns={columns}
 				data={PageState.tableData}
@@ -203,15 +203,24 @@ const renderRowAction = (record: BmbpDict) => {
 				>
 					启用
 				</Button>
-				<Button
+				<Popconfirm
+            title='删除确认？'
+            content='删除后，字典将无法选择和回显，是否删除?'
+            onOk={() => {
+						PageAction.remove(record);
+            }}
+            onCancel={() => {
+
+            }}
+          >
+            <Button
 					type="text"
 					status="danger"
-					onClick={() => {
-						PageAction.enable(record);
-					}}
 				>
 					删除
 				</Button>
+          </Popconfirm>
+
 			</>
 		);
 	} else {
