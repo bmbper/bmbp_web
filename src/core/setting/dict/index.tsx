@@ -6,7 +6,7 @@ import DictTree from "./tree";
 const DictTreePage = () => {
   PageAction.init();
   useEffect(() => {
-    PageAction.loadInitData();
+    PageAction.findTreeData();
   }, []);
   return (
     <>

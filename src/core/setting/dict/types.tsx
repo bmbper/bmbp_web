@@ -7,4 +7,5 @@ export interface BmbpDict {
   dictAlias: string;
   dictValue: string;
   dictChildren: BmbpDict[];
+  dataStatus: string;
 }
