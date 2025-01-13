@@ -56,8 +56,8 @@ const usePageInit = () => {
   PageState.addFormRef = useRef();
 
   // 编辑对话框
-  const [eidtDialogShow, setEditDialogShow] = useState(false);
-  PageState.eidtDialogShow = eidtDialogShow;
+  const [editDialogShow, setEditDialogShow] = useState(false);
+  PageState.editDialogShow = editDialogShow;
   PageState.setEditDialogShow = setEditDialogShow;
   PageState.editFormRef = useRef();
 

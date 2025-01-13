@@ -111,20 +111,21 @@ const renderTreeNodeAction = (node: BmbpDict) => {
 					>
 						启用
 					</MenuItem>
-					<Popconfirm
-            title='删除确认？'
-            content='删除后，字典将无法选择和回显，是否删除?'
-            onOk={() => {
-							PageAction.remove(node);
-            }}
-            onCancel={() => {
 
-            }}
-          >
-            <MenuItem	key="remove" onClick={(e) => {
-              e.stopPropagation();
-            }}>	删除</MenuItem>
-          </Popconfirm>
+            <MenuItem	key="remove">
+              <Popconfirm
+                   title='删除确认？'
+                   content='删除后，字典将无法选择和回显，是否删除?'
+                   onOk={() => {
+                     PageAction.remove(node);
+                   }}
+                   onCancel={() => {
+                   }}
+                 >
+                   删除
+                 </Popconfirm>
+            </MenuItem>
+
 
 				</>
 			) : (

@@ -21,13 +21,16 @@ const DictGrid = () => {
 					{PageState.selectedRowKeys && PageState.selectedRowKeys.length > 0 ? (
 						<>
               <Button type="primary" onClick={() => { PageAction.batchEnable(); }}>批量启用</Button>
-							<Button type="primary" onClick={() => { PageAction.batch(); }}>批量停用</Button>
+							<Button type="primary" onClick={() => { PageAction.batchDisable(); }}>批量停用</Button>
 							<Button
 								type="primary"
 								status="danger"
+								onClick={() => {
+                    PageAction.batchRemove();
+                }}
 							>
 								批量删除
-							</Button>{" "}
+							</Button>
 						</>
 					) : null}
 				</div>
@@ -142,7 +145,7 @@ const GridTable = () => {
 						<Button
 							type="text"
 							onClick={() => {
-								PageAction.edit(record);
+								PageAction.addBrother(record);
 							}}
 						>
 							新增平级
@@ -150,7 +153,7 @@ const GridTable = () => {
 						<Button
 							type="text"
 							onClick={() => {
-								PageAction.edit(record);
+								PageAction.addChild(record);
 							}}
 						>
 							新增子级
