@@ -1,4 +1,5 @@
-import { Form } from "@arco-design/web-react"
+import { Form,Input } from "@arco-design/web-react"
+import React from "react";
 
 export const AddForm = () => {
   return (<>
@@ -36,5 +37,27 @@ export const ChangeParentForm = () => {
 
 
 const FormItems = () => {
-  return (<></>)
+  return (<>
+    <Form.Item label="字典名称" name="name" required>
+      <Input placeholder="请输入字典名称" />
+    </Form.Item>
+    <Form.Item label="字典名称" name="name" required>
+      <Input placeholder="请输入字典名称" />
+    </Form.Item>
+    <Form.Item label="字典名称" name="name" required>
+      <Input placeholder="请输入字典名称" />
+    </Form.Item>
+    <Form.Item label="字典名称" name="name" required>
+      <Input placeholder="请输入字典名称" />
+    </Form.Item>
+    <Form.Item label="字典名称" name="name" required>
+      <Input placeholder="请输入字典名称" />
+    </Form.Item>
+    <Form.Item label="字典名称" name="name" required>
+      <Input placeholder="请输入字典名称" />
+    </Form.Item>
+    <Form.Item label="字典名称" name="name" required>
+      <Input placeholder="请输入字典名称" />
+    </Form.Item>
+  </>)
 }
