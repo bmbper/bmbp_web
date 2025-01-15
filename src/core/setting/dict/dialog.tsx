@@ -1,68 +1,88 @@
-import { Modal } from "@arco-design/web-react";
-import { PageState } from "./store";
-import { AddForm, ChangeParentForm, EditForm, InfoForm } from "./form";
+import {Modal} from "@arco-design/web-react";
+import {PageAction, PageState} from "./store";
+import {AddForm, ChangeParentForm, EditForm, InfoForm} from "./form";
 
-export const AddDictDialog=()=>{
-  return (<>
-    <Modal
-          title='新增字典'
-          visible={PageState.addDialogShow}
-          onOk={() => {
-            PageState.setAddDialogShow(false)
-          }}
-          onCancel={() => {
-            PageState.setAddDialogShow(false)
-          }}
+export const AddDictDialog = () => {
+    return (<>
+        <Modal
+            title='新增字典'
+            visible={PageState.addDialogShow}
+            mountOnEnter={false}
+            onOk={() => {
+                PageState.addFormRef.current?.validate().then((data) => {
+                    PageAction.save(data, (respData) => {
+                        PageAction.findTreeData();
+                    })
+                    PageState.addFormRef.current?.resetFields();
+                    PageState.setAddDialogShow(false);
+
+                });
+            }}
+            onCancel={() => {
+                PageState.addFormRef.current?.resetFields();
+                PageState.setAddDialogShow(false)
+            }}
         >
-          <AddForm/>
+            <AddForm/>
         </Modal>
-  </>);
+    </>);
 }
-export const EditDictDialog=() => {
-  return (<>
-    <Modal
-          title='编辑字典'
-          visible={PageState.editDialogShow}
-          onOk={() => {
-            PageState.setEditDialogShow(false)
-          }}
-          onCancel={() => {
-            PageState.setEditDialogShow(false)
-          }}
+export const EditDictDialog = () => {
+    return (<>
+        <Modal
+            title='编辑字典'
+            mountOnEnter={false}
+            visible={PageState.editDialogShow}
+            onOk={() => {
+
+                PageState.editFormRef.current?.validate().then((data) => {
+                    PageAction.save(data, (respData) => {
+                        PageAction.findTreeData();
+                    })
+                    PageState.editFormRef.current?.resetFields();
+                    PageState.setEditDialogShow(false)
+
+                });
+            }}
+            onCancel={() => {
+                PageState.editFormRef.current?.resetFields();
+                PageState.setEditDialogShow(false);
+            }}
         >
-          <EditForm/>
+            <EditForm/>
         </Modal>
-  </>);
+    </>);
 }
-export const InfoDictDialog=()=>{
-  return (<>
-    <Modal
-          title='查看字典'
-          visible={PageState.infoDialogShow}
-          onOk={() => {
-            PageState.setInfoDialogShow(false)
-          }}
-          onCancel={() => {
-            PageState.setInfoDialogShow(false)
-          }}
+export const InfoDictDialog = () => {
+    return (<>
+        <Modal
+            title='查看字典'
+            visible={PageState.infoDialogShow}
+            onOk={() => {
+                PageState.setInfoDialogShow(false)
+            }}
+            onCancel={() => {
+                PageState.setInfoDialogShow(false)
+            }}
         >
-          <InfoForm/>
+            <InfoForm/>
         </Modal>
-  </>);
+    </>);
 }
-export const ChangeParentDialog=() => {
-  return (<>
-    <Modal
-          title='变更上级'
-          visible={PageState.changeParentDialogShow}
-          onOk={() => {
-            PageState.setChangeParentDialogShow(false)
-          }}
-          onCancel={() => {
-            PageState.setChangeParentDialogShow(false)
-          }}
+export const ChangeParentDialog = () => {
+    return (<>
+        <Modal
+            title='变更上级'
+            mountOnEnter={false}
+            visible={PageState.changeParentDialogShow}
+            onOk={() => {
+                PageState.setChangeParentDialogShow(false)
+            }}
+            onCancel={() => {
+                PageState.setChangeParentDialogShow(false)
+            }}
         >
-          <ChangeParentForm/>
+            <ChangeParentForm/>
         </Modal>
-  </>);
+    </>);
 }

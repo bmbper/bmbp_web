@@ -2,6 +2,7 @@ import { Button, Form, Grid, Input, Pagination, Popconfirm, Space, Table } from 
 import { useEffect } from "react";
 import { PageAction, PageState } from "./store";
 import { BmbpDict } from "./types";
+
 const Row = Grid.Row;
 const Col = Grid.Col;
 const DictGrid = () => {
@@ -15,22 +16,47 @@ const DictGrid = () => {
 					<GridSearchForm />
 				</div>
 				<div className="bm-grid-toolbar">
-          <Button type="primary" onClick={() => {
-            PageAction.addDict();
-          }}>新增</Button>
+					<Button
+						type="primary"
+						onClick={() => {
+							PageAction.addChild(PageState.currentTreeNodeData);
+						}}
+					>
+						新增
+					</Button>
 					{PageState.selectedRowKeys && PageState.selectedRowKeys.length > 0 ? (
 						<>
-              <Button type="primary" onClick={() => { PageAction.batchEnable(); }}>批量启用</Button>
-							<Button type="primary" onClick={() => { PageAction.batchDisable(); }}>批量停用</Button>
 							<Button
 								type="primary"
-								status="danger"
 								onClick={() => {
-                    PageAction.batchRemove();
-                }}
+									PageAction.batchEnable();
+								}}
 							>
-								批量删除
+								批量启用
 							</Button>
+							<Button
+								type="primary"
+								onClick={() => {
+									PageAction.batchDisable();
+								}}
+							>
+								批量停用
+							</Button>
+							<Popconfirm
+								title="删除确认？"
+								content="删除后，字典将无法选择和回显，是否删除?"
+								onOk={() => {
+									PageAction.batchRemove();
+								}}
+								onCancel={() => {}}
+							>
+								<Button
+									type="primary"
+									status="danger"
+								>
+									批量删除
+								</Button>
+							</Popconfirm>
 						</>
 					) : null}
 				</div>
@@ -114,7 +140,7 @@ const GridTable = () => {
 			title: "序号",
 			dataIndex: "dictCode",
 			width: 64,
-			render: (_col:any, _record:any, index:any) => {
+			render: (_col: any, _record: any, index: any) => {
 				return (PageState.pagination.pageNum - 1) * PageState.pagination.pageSize + index + 1;
 			},
 		},
@@ -139,7 +165,7 @@ const GridTable = () => {
 			title: "操作",
 			dataIndex: "dataId",
 			width: 280,
-			render: (_col:any, record:any, _index:any) => {
+			render: (_col: any, record: any, _index: any) => {
 				return (
 					<div className="bm-grid-table-row-action">
 						<Button
@@ -207,23 +233,20 @@ const renderRowAction = (record: BmbpDict) => {
 					启用
 				</Button>
 				<Popconfirm
-            title='删除确认？'
-            content='删除后，字典将无法选择和回显，是否删除?'
-            onOk={() => {
+					title="删除确认？"
+					content="删除后，字典将无法选择和回显，是否删除?"
+					onOk={() => {
 						PageAction.remove(record);
-            }}
-            onCancel={() => {
-
-            }}
-          >
-            <Button
-					type="text"
-					status="danger"
+					}}
+					onCancel={() => {}}
 				>
-					删除
-				</Button>
-          </Popconfirm>
-
+					<Button
+						type="text"
+						status="danger"
+					>
+						删除
+					</Button>
+				</Popconfirm>
 			</>
 		);
 	} else {
