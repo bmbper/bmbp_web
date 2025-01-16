@@ -7,17 +7,17 @@ const PageState: { [key: string]: any } = {};
 
 const PageUrl = {
 	// 左侧树数据
-	treeUrl: "/config/dict/tree",
-	pageUrl: "/config/dict/page",
-	infoUrl: "/config/dict/info",
-	saveUrl: "/config/dict/save",
-	changeParentUrl: "/config/dict/changeParent",
-	enableUrl: "/config/dict/enable",
-	disableUrl: "/config/dict/disable",
-	deleteUrl: "/config/dict/delete",
-	batchEnableUrl: "/config/dict/batch/enable",
-	batchDisableUrl: "/config/dict/batch/disable",
-	batchDeleteUrl: "/config/dict/batch/delete",
+	treeUrl: "/config/vars/tree",
+	pageUrl: "/config/vars/page",
+	infoUrl: "/config/vars/info",
+	saveUrl: "/config/vars/save",
+	changeParentUrl: "/config/vars/changeParent",
+	enableUrl: "/config/vars/enable",
+	disableUrl: "/config/vars/disable",
+	deleteUrl: "/config/vars/delete",
+	batchEnableUrl: "/config/vars/batch/enable",
+	batchDisableUrl: "/config/vars/batch/disable",
+	batchDeleteUrl: "/config/vars/batch/delete",
 };
 
 const usePageInit = () => {
@@ -107,7 +107,7 @@ const PageAction: { [key: string]: any } = {
 			pageSize: PageState.pagination.pageSize,
 			params: {
 				...PageState.queryData,
-				dictCode: PageState.currentTreeNodeData?.dictCode,
+				varsCode: PageState.currentTreeNodeData?.varsCode,
 			},
 		};
 		HttpUtil.post(PageUrl.pageUrl, parmas).then((res: any) => {
@@ -125,32 +125,32 @@ const PageAction: { [key: string]: any } = {
 	},
 	addBrother: (node: BmbpDict) => {
 		let currentFormData = {
-			dictParentCode: "",
-			dictParentNamePath: "",
+			varsParentCode: "",
+			varsParentNamePath: "",
 		};
 		if (node == null) {
-			currentFormData.dictParentCode = "#";
-			currentFormData.dictParentNamePath = "#";
+			currentFormData.varsParentCode = "#";
+			currentFormData.varsParentNamePath = "#";
 		} else {
-			currentFormData.dictParentCode = node.dictParentCode;
-			let currentNamePath = "/" + node.dictName + "/";
-			let dictParentNamePath = node.dictNamePath.substr(0, node.dictNamePath.length - currentNamePath.length);
-			currentFormData.dictParentNamePath = dictParentNamePath;
+			currentFormData.varsParentCode = node.varsParentCode;
+			let currentNamePath = "/" + node.varsName + "/";
+			let varsParentNamePath = node.varsNamePath.substr(0, node.varsNamePath.length - currentNamePath.length);
+			currentFormData.varsParentNamePath = varsParentNamePath;
 		}
 		PageState.setCurrentFormData(currentFormData);
 		PageState.setAddDialogShow(true);
 	},
 	addChild: (node: BmbpDict) => {
 		let currentFormData = {
-			dictParentCode: "",
-			dictParentNamePath: "",
+			varsParentCode: "",
+			varsParentNamePath: "",
 		};
 		if (node == null) {
-			currentFormData.dictParentCode = "#";
-			currentFormData.dictParentNamePath = "#";
+			currentFormData.varsParentCode = "#";
+			currentFormData.varsParentNamePath = "#";
 		} else {
-			currentFormData.dictParentCode = node.dictCode;
-			currentFormData.dictParentNamePath = node.dictNamePath;
+			currentFormData.varsParentCode = node.varsCode;
+			currentFormData.varsParentNamePath = node.varsNamePath;
 		}
 		PageState.setCurrentFormData(currentFormData);
 		PageState.setAddDialogShow(true);
@@ -158,12 +158,12 @@ const PageAction: { [key: string]: any } = {
 	edit: (node: BmbpDict) => {
 		HttpUtil.post(PageUrl.infoUrl, { dataId: node.dataId }).then((res: any) => {
 			if (res.code === "0") {
-				let dictData = res.data;
-				let dictNamePath = dictData.dictNamePath;
-				let currentNamePath = "/" + dictData.dictName + "/";
-				let dictParentNamePath = dictNamePath.substr(0, dictNamePath.length - currentNamePath.length);
-				dictData.dictParentNamePath = dictParentNamePath;
-				PageState.setCurrentFormData(dictData);
+				let varsData = res.data;
+				let varsNamePath = varsData.varsNamePath;
+				let currentNamePath = "/" + varsData.varsName + "/";
+				let varsParentNamePath = varsNamePath.substr(0, varsNamePath.length - currentNamePath.length);
+				varsData.varsParentNamePath = varsParentNamePath;
+				PageState.setCurrentFormData(varsData);
 				PageState.setEditDialogShow(true);
 			} else {
 				Message.error(res.msg);

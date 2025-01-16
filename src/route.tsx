@@ -3,6 +3,7 @@ import DictTreePage from "./core/setting/dict";
 import IFrame from "./core/work/iframe";
 import NotFound from "./core/work/notfound";
 import Workbench from "./core/work/workbench";
+import VarsTreePage from "./core/setting/vars";
 
 export const BmbpRoutes = [
   {
@@ -10,6 +11,9 @@ export const BmbpRoutes = [
     children:[
       {
         path:"config/dict",component: DictTreePage
+      },
+      {
+        path:"config/vars",component: VarsTreePage
       },
       {
         path:"demo",component:Login
